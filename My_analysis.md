@@ -10,7 +10,7 @@ Strating with the very aim of this project i.e. "To predict the manner in which 
 
 ###Flow chart
 
-Clean Data -&gt; Preprocess Data-&gt; Partition Data -&gt; Train Data -&gt; Test Data
+Clean Data -> Preprocess Data-> Partition Data -> Train Data -> Test Data
 
 ###Clean Data
 
@@ -94,27 +94,27 @@ Balanced Accuracy      0.9934   0.9852   0.9891   0.9888
 
 ```{r}
 
-url&lt;-"http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+url<-"http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
 
-data&lt;-read.csv(url)
+data<-read.csv(url)
 
 library(caret) 
 
 library(kernlab)
 
-nsv&lt;-nearZeroVar(data,saveMetrics=TRUE)
+nsv<-nearZeroVar(data,saveMetrics=TRUE)
 
 dim(nsv);
 
-new&lt;-nsv[grep("FALSE",nsv$nzv,ignore.case=T),]
+new<-nsv[grep("FALSE",nsv$nzv,ignore.case=T),]
 
 length(row.names(new))
 
 length(row.names(nsv))
 
-goodvar&lt;-row.names(new) 
+goodvar<-row.names(new) 
 
-newdata&lt;-data[,c(goodvar)]
+newdata<-data[,c(goodvar)]
 
 colnames(newdata)
 
@@ -124,7 +124,7 @@ dim(data)
 
 set.seed(15625)
 
-inTrain&lt;-createDataPartition(y=newdata$classe,p=0.6,list=FALSE)
+inTrain<-createDataPartition(y=newdata$classe,p=0.6,list=FALSE)
 
  training=newdata[inTrain,]
 
@@ -132,11 +132,11 @@ inTrain&lt;-createDataPartition(y=newdata$classe,p=0.6,list=FALSE)
 
  training$classe=factor(training$classe)
 
- trcontrol&lt;-traincontrol(method="cv",number=5)
+ trcontrol<-traincontrol(method="cv",number=5)
 
-modelFit&lt;-train(classe~., method="rf",data=training,preProcess="pca",trcontrol)
+modelFit<-train(classe~., method="rf",data=training,preProcess="pca",trcontrol)
 
-predictions&lt;-predict(modelFit,newdata=testing)
+predictions<-predict(modelFit,newdata=testing)
 
 confusionMatrix(predictions,testing$classe)
 
